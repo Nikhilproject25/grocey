@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+<style>
+    body {
+        color: rgb(0, 0, 0);
+    }
+
+    .expand-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        cursor: pointer;
+    }
+
+    .content-box {
+        display: none;
+        /* Initially hidden */
+        position: fixed;
+        bottom: 70px;
+        right: 20px;
+        width: 300px;
+        height: 200px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        z-index: 999;
+        border-radius: 5px;
+    }
+
+    .card-img-top {
+        height: 200px;
+        /* or any other height you prefer */
+        object-fit: cover;
+        /* this will cover the area of the defined height, cropping the excess */
+        width: 100%;
+        /* ensures the image covers the full width of the card */
+    }
+
+    @media (max-width: 768px) {
+        .card-img-top {
+            height: 150px;
+            /* shorter height for smaller screens */
+        }
+    }
+</style>
+<div class="container my-4">
+    {% for order in orders %}
+    <div
+        class="card mb-3 {% if order.status == 'Pending' %}text-bg-warning{% elif order.status == 'Shipped' %}text-bg-primary{% elif order.status == 'Delivered' %}text-bg-success{% elif order.status == 'Cancelled' %}text-bg-danger{% endif %}">
+        <div class="card-body">
+            <h5 class="card-title text-white">Order #{{ order.id }}</h5>
+            <h6 class="card-subtitle mb-2 text-white">Status: {{ order.status }}</h6>
+            <p class="card-text text-white">Total: ${{ order.total_price }}</p>
+            <p class="card-text text-white">
+                Address: <br>
+                {{ order.street_address }}
+                <br>
+                {{ order.city }}, {{ order.state }}
+                <br>
+                {{ order.country }} - {{ order.postal_code }}
+            </p>
+            <ul class="list-group list-group-flush text-white">
+                {% for item in order.items.all %}
+                <li class="list-group-item">{{ item.product_name }} x {{ item.quantity }} - ${{ item.price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-info" role="alert">
+        No orders yet.
+    </div>
+    {% endfor %}
+</div>
+<div class="content-box" id="contentBox">
+    <div id="chatbot" class="chatbot">
+        <div class="chatbot-messages" id="chatbotMessages"
+            style="height: 140px; overflow-y: auto; padding: 5px; border-bottom: 1px solid #ccc;">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="chatbot-input" style="padding: 5px;">
+            <input type="text" id="chatbotInput" placeholder="Type your message..."
+                style="width: calc(100% - 40px); padding: 5px;">
+            <button onclick="sendMessage()" style="width: 30px;"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+<button class="btn btn-secondary expand-btn" id="expandBtn"><i class="fas fa-chevron-up"></i></button>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    const expandBtn = document.getElementById('expandBtn');
+    const contentBox = document.getElementById('contentBox');
+
+    expandBtn.addEventListener('click', function () {
+        const isOpen = contentBox.style.display === 'block';
+        contentBox.style.display = isOpen ? 'none' : 'block';
+        expandBtn.innerHTML = isOpen ? '<i class="fas fa-chevron-up"></i>' : '<i class="fas fa-chevron-down"></i>';
+    });
+
+    document.getElementById('chatbotInput').addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const input = document.getElementById('chatbotInput');
+        const userMessage = input.value.trim();
+        console.log('Sending message:', userMessage); // Debugging: Check what message is being sent
+        if (userMessage) {
+            displayUserMessage(userMessage);
+            fetch(`/chatbot_response?question=${encodeURIComponent(userMessage)}`, {
+                method: 'GET',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response received:', data); // Debugging: Log response data
+                    displayChatbotMessage(data.response);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    displayChatbotMessage("Error processing your request.");
+                });
+            input.value = ''; // Clear input after sending
+        }
+    }
+
+    function displayUserMessage(message) {
+        const messageBox = document.getElementById('chatbotMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = message;
+        messageDiv.className = 'p-2 mt-2 bg-primary text-white';
+        messageBox.appendChild(messageDiv);
+        messageBox.scrollTop = messageBox.scrollHeight; // Scroll to the bottom
+    }
+
+    function displayChatbotMessage(message) {
+        const messageBox = document.getElementById('chatbotMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = message;
+        messageDiv.className = 'p-2 mt-2 bg-light text-dark';
+        messageBox.appendChild(messageDiv);
+        messageBox.scrollTop = messageBox.scrollHeight; // Scroll to the bottom
+    }
+</script>
+{% endblock %}

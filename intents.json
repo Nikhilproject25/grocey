@@ -1,0 +1,36 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Is anyone there?", "Good day"],
+      "responses": ["Hello!", "Hi there, how can I assist you?", "Good day! What can I do for you today?"]
+    },
+    {
+      "tag": "product_inquiry",
+      "patterns": [
+        "Tell me more about this product",
+        "I want details on a product",
+        "Can you give me more information about a product?"
+      ],
+      "responses": [
+        "Sure, I can help with that. What product are you interested in?",
+        "Of course! Please provide the name or category of the product you're inquiring about."
+      ]
+    },
+    {
+      "tag": "price_inquiry",
+      "patterns": ["How much does this cost?", "What is the price of this item?", "Can you tell me the price of this product?"],
+      "responses": ["The price of this product is [price]. Is there anything else you'd like to know?", "It costs [price]. Any other questions?"]
+    },
+    {
+      "tag": "availability",
+      "patterns": ["Is this product available?", "Can I know if this product is in stock?", "Is this item in stock?"],
+      "responses": ["This product is currently available.", "Yes, it is in stock. Would you like to order it?", "This item is available for purchase."]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": ["Goodbye! Have a great day ahead.", "See you later!", "Goodbye! Contact us anytime."]
+    }
+  ]
+}

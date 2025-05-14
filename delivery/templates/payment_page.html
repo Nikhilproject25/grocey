@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Title -->
+                    <h4 class="card-title text-center mb-4">Payment Details</h4>
+                    <hr>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    <!-- Total Amount -->
+                    <p class="text-center">Total Amount: ${{ total_amount }}</p>
+
+                    <!-- Payment Form -->
+                    <form action="{% url 'process_payment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardHolder">Card Holder</label>
+                            <input type="text" class="form-control" id="cardHolder" name="cardHolder" required>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="expMonth">Expiration Month</label>
+                                <input type="text" class="form-control" id="cardHolder" name="expMonth" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="expYear">Expiration Year</label>
+                                <input type="text" class="form-control" id="cardHolder" name="expYear" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="password" class="form-control" id="cvv" name="cvv" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="streetAddress">Street Address</label>
+                        <input type="text" class="form-control" id="streetAddress" name="streetAddress" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" id="state" name="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode">Postal Code</label>
+                        <input type="text" class="form-control" id="postalCode" name="postalCode" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Pay ${{ total_amount }}</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Card -->
+        </div>
+    </div>
+</div>
+{% endblock %}

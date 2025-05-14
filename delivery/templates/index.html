@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+    <h3 class="text-center mb-4">Welcome to Grocery Delight – Your One-Stop Online Grocery Store</h3>
+    <p class="text-center">Experience the convenience of fresh groceries delivered right to your doorstep. Browse
+        through our wide range of categories and enjoy hassle-free shopping.</p>
+
+    <!-- Featured Categories -->
+    <div class="row text-center">
+        <!-- Card 1 -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Fruits</h4>
+                    <p class="card-text">Fresh and juicy fruits to refresh your day.</p>
+                    <a href="{% url 'product_catalog' %}" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Vegetables</h4>
+                    <p class="card-text">Organic and healthy veggies for your meals.</p>
+                    <a href="{% url 'product_catalog' %}" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Dairy</h4>
+                    <p class="card-text">All the dairy essentials from milk to cheese.</p>
+                    <a href="{% url 'product_catalog' %}" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="testimonials my-5">
+        <h4 class="text-center mb-3">What Our Customers Say</h4>
+        <p class="text-center">"I love the convenience and variety at Grocery Delight. Fresh products and timely
+            delivery every time!" - Jane Doe</p>
+        <p class="text-center">"Grocery shopping has never been easier. Excellent service and great quality products!" -
+            John Smith</p>
+    </div>
+
+    <!-- Blog/Recipes Section -->
+    <div class="blog-section text-center">
+        <h4>From Our Blog</h4>
+        <p>Check out our latest recipes and grocery tips to make the most of your shopping experience.</p>
+        
+    </div>
+</div>
+
+{% endblock %}

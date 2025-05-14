@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        width: 50%;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+
+
+<section class="text-center">
+    <div class="form-container">
+        <!-- <div class="form-wrapper"> -->
+        <div class="card mx-4 mx-md-5 shadow-5-strong"
+            style="background-image: url('https://markethubtt.com/wp-content/uploads/2023/05/markethub-about.webp'); background-size: cover;">
+            <div class="card-body py-5 px-md-5">
+
+                <div class="row d-flex justify-content-center text-white">
+                    <div class="col-lg-8">
+                        <h2 class="fw-bold mb-5">LogIn</h2>
+                        <div class="form-group mt-3">
+                            {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+
+                                <div class="alert {{ message.tags }}"> {{ message }}</div>
+
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-4 text-black">
+                                <label class="form-label text-white" for="form2Example1">User Name</label>
+                                <input type="text" name="username" id="form2Example1" class="form-control text-black" />
+
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-white" for="form2Example2">Password</label>
+                                <input type="password" name="password" id="form2Example2"
+                                    class="form-control text-black" />
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-outline-white btn-block mb-4">Submit</button>
+
+                            <!-- Register buttons -->
+                            <div class="text-center ">
+                                <p>Not a member? <a href="{% url 'signup' %}" class="text-white">Register</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</section>
+
+
+{% endblock %}
